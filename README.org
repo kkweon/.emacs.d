@@ -1,0 +1,16 @@
+#+TITLE: 2020 Emacs setup
+
+This is my new emacs setup(~/.emacs.d/init.el).
+
+#+BEGIN_SRC shell :exports results
+fd .
+#+END_SRC
+
+#+RESULTS:
+| README.org  |
+| init.el     |
+| my-init.org |
+
+* TODOS
+
+** TODO move to org-iterate from init.el

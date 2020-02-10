@@ -1,0 +1,65 @@
+#+TITLE: My Init file
+
+* Initialization
+
+** Initialize ~package~
+
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(package-initialize)
+#+END_SRC
+
+** Initialize ~use-package~
+
+#+BEGIN_SRC emacs-lisp
+(require 'use-package)
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+#+END_SRC
+
+** Packages
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile)
+  (use-package exec-path-from-shell
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+  (use-package helm
+    :config
+    (global-set-key (kbd "M-x") 'helm-M-x))
+  (use-package magit)
+  (use-package org)
+  (use-package ox-gfm
+    :defer t
+    :config
+    (eval-after-load "org"
+      '(require 'ox-gfm nil t)))
+  (use-package evil
+    :config
+    (evil-mode t)
+    ;; Resolve key conflicts between evil and magit.
+    (evil-set-initial-state 'magit-mode 'emacs)
+    ;; Fix evil-mode's o.
+    (add-hook 'org-mode-hook (lambda () (setq evil-auto-indent nil))))
+  (use-package company
+    :config
+    (add-hook 'after-init-hook 'global-company-mode))
+  (use-package which-key
+    :config
+    (which-key-mode))
+#+END_SRC
+
+* Other settings
+
+#+BEGIN_SRC emacs-lisp
+  (global-display-line-numbers-mode)
+  (setq show-trailing-whitespace t)
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((shell . t)))
+#+END_SRC
